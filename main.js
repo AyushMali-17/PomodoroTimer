@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Shared functionality
+    // General functionality
     const themeSelector = document.getElementById('theme');
     const alertSound = document.getElementById('alertSound');
     const soundSelect = document.getElementById('soundSelect');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alertSound.src = soundSelect.value;
     });
 
-    // File preview
+    // File preview for profile picture
     const profilePicInput = document.getElementById('profilePic');
     profilePicInput.addEventListener('change', function(event) {
         const file = event.target.files[0];

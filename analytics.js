@@ -1,19 +1,35 @@
+// Example functionality for the analytics page
 document.addEventListener('DOMContentLoaded', function() {
-    const resetAnalyticsBtn = document.getElementById('resetAnalyticsBtn');
-    const pomodoroCountSpan = document.getElementById('pomodoroCount');
-    const longestStreakSpan = document.getElementById('longestStreak');
-
-    let pomodoroCount = 0;
-    let longestStreak = 0;
-
-    // Fetch stored analytics
-    // For demo purposes, use local storage or a real backend
-
-    resetAnalyticsBtn.addEventListener('click', function() {
-        pomodoroCount = 0;
-        longestStreak = 0;
-        pomodoroCountSpan.textContent = pomodoroCount;
-        longestStreakSpan.textContent = longestStreak;
-        alert('Analytics Reset');
-    });
+    // Placeholder for analytics functionality
+    const chartCanvas = document.getElementById('chartCanvas');
+    if (chartCanvas) {
+        const ctx = chartCanvas.getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Work Sessions',
+                    data: [5, 10, 15, 20, 25, 30],
+                    borderColor: '#ff6347',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 });

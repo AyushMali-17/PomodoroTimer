@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Timer</title>
+    <title>Pomodoro Timer Pro</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="profile.html">Profile</a>
+        <a href="todo.html">To-Do List</a>
+        <a href="analytics.html">Analytics</a>
+        <a href="calendar.html">Calendar</a>
+    </div>
     <div class="container">
         <h1>Pomodoro Timer</h1>
         <div class="timer">
@@ -32,30 +39,30 @@
                 <option value="green">Green</option>
             </select>
         </div>
-        <div class="navigation">
-            <a href="profile.html">Profile</a>
-            <a href="todo.html">To-Do List</a>
-            <a href="analytics.html">Analytics</a>
-            <a href="calendar.html">Calendar</a>
-        </div>
         <div class="sound-control">
-            <label for="soundToggle">Sound:</label>
-            <input type="checkbox" id="soundToggle" checked>
-            <label for="soundSelect">Alert Sound:</label>
+            <label for="soundSelect">Sound:</label>
             <select id="soundSelect">
-                <option value="alert1.mp3">Alert 1</option>
-                <option value="alert2.mp3">Alert 2</option>
+                <option value="alert.mp3">Default</option>
+                <option value="notification.mp3">Notification</option>
+                <option value="beep.mp3">Beep</option>
             </select>
         </div>
-        <div class="custom-notifications">
+        <div class="log">
+            <h2>Log</h2>
+            <ul id="logList"></ul>
+            <button id="clearLogBtn">Clear Log</button>
+        </div>
+        <div class="custom-settings">
             <label for="notifications">Enable Notifications:</label>
             <input type="checkbox" id="notifications" checked>
+            <label for="soundToggle">Sound:</label>
+            <input type="checkbox" id="soundToggle" checked>
         </div>
         <div class="custom-alerts">
             <label for="customAlert">Custom Alert Message:</label>
             <input type="text" id="customAlert" placeholder="Time's up! Take a break.">
         </div>
-        <audio id="alertSound" src="alert1.mp3"></audio>
+        <audio id="alertSound" src="alert.mp3"></audio>
     </div>
     <script src="main.js"></script>
 </body>

@@ -1,18 +1,16 @@
+// Example functionality for the to-do list page
 document.addEventListener('DOMContentLoaded', function() {
-    const addTodoBtn = document.getElementById('addTodoBtn');
-    const todoInput = document.getElementById('todoInput');
+    const todoForm = document.getElementById('todoForm');
     const todoList = document.getElementById('todoList');
 
-    addTodoBtn.addEventListener('click', function() {
-        const task = todoInput.value;
-        if (task) {
+    todoForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const newTodo = document.getElementById('newTodo').value;
+        if (newTodo) {
             const li = document.createElement('li');
-            li.textContent = task;
-            li.addEventListener('click', function() {
-                li.remove();
-            });
+            li.textContent = newTodo;
             todoList.appendChild(li);
-            todoInput.value = '';
+            document.getElementById('newTodo').value = '';
         }
     });
 });
