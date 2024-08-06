@@ -3,67 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Timer Pro</title>
+    <title>Pomodoro Timer</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="profile.html">Profile</a>
-        <a href="todo.html">To-Do List</a>
-        <a href="analytics.html">Analytics</a>
-        <a href="calendar.html">Calendar</a>
-    </div>
     <div class="container">
-        <h1>Pomodoro Timer</h1>
-        <div class="timer">
-            <span id="minutes">25</span>:<span id="seconds">00</span>
-        </div>
-        <div class="controls">
-            <button id="startStopBtn">Start</button>
-            <button id="resetBtn">Reset</button>
-            <button id="pauseBtn">Pause</button>
-        </div>
-        <div class="settings">
-            <label for="workInterval">Work Interval (minutes):</label>
-            <input type="number" id="workInterval" value="25">
-            <label for="breakInterval">Break Interval (minutes):</label>
-            <input type="number" id="breakInterval" value="5">
-        </div>
-        <div class="theme-switcher">
-            <label for="theme">Theme:</label>
-            <select id="theme">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-            </select>
-        </div>
-        <div class="sound-control">
-            <label for="soundSelect">Sound:</label>
-            <select id="soundSelect">
-                <option value="alert.mp3">Default</option>
-                <option value="notification.mp3">Notification</option>
-                <option value="beep.mp3">Beep</option>
-            </select>
-        </div>
-        <div class="log">
-            <h2>Log</h2>
-            <ul id="logList"></ul>
-            <button id="clearLogBtn">Clear Log</button>
-        </div>
-        <div class="custom-settings">
-            <label for="notifications">Enable Notifications:</label>
-            <input type="checkbox" id="notifications" checked>
-            <label for="soundToggle">Sound:</label>
-            <input type="checkbox" id="soundToggle" checked>
-        </div>
-        <div class="custom-alerts">
-            <label for="customAlert">Custom Alert Message:</label>
-            <input type="text" id="customAlert" placeholder="Time's up! Take a break.">
-        </div>
-        <audio id="alertSound" src="alert.mp3"></audio>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#timer">Timer</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#todo">To-Do List</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+                <li><a href="#calendar">Calendar</a></li>
+            </ul>
+        </nav>
+        
+        <section id="timer" class="section">
+            <h1>Pomodoro Timer</h1>
+            <div class="timer">
+                <span id="minutes">25</span>:<span id="seconds">00</span>
+            </div>
+            <div class="controls">
+                <button id="startStopBtn">Start</button>
+                <button id="resetBtn">Reset</button>
+                <button id="pauseBtn">Pause</button>
+            </div>
+            <div class="settings">
+                <label for="workInterval">Work Interval (minutes):</label>
+                <input type="number" id="workInterval" value="25">
+                <label for="breakInterval">Break Interval (minutes):</label>
+                <input type="number" id="breakInterval" value="5">
+            </div>
+            <div class="theme-switcher">
+                <label for="theme">Theme:</label>
+                <select id="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+            <div class="sound-control">
+                <label for="soundToggle">Sound:</label>
+                <input type="checkbox" id="soundToggle" checked>
+            </div>
+            <div class="custom-notifications">
+                <label for="notifications">Enable Notifications:</label>
+                <input type="checkbox" id="notifications" checked>
+            </div>
+            <div class="custom-alerts">
+                <label for="customAlert">Custom Alert Message:</label>
+                <input type="text" id="customAlert" placeholder="Time's up! Take a break.">
+            </div>
+            <audio id="alertSound" src="alert.mp3"></audio>
+        </section>
+
+        <section id="profile" class="section">
+            <h1>User Profile</h1>
+            <form id="profileForm">
+                <div class="profile-pic">
+                    <img id="profilePicPreview" src="default-profile.png" alt="Profile Picture" style="display:none;">
+                    <input type="file" id="profilePic">
+                </div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter your username">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter your email">
+                <button type="submit">Update Profile</button>
+            </form>
+        </section>
+
+        <section id="todo" class="section">
+            <h1>To-Do List</h1>
+            <form id="todoForm">
+                <input type="text" id="newTodo" placeholder="New to-do item">
+                <button type="submit">Add</button>
+            </form>
+            <ul id="todoList"></ul>
+        </section>
+
+        <section id="analytics" class="section">
+            <h1>Analytics</h1>
+            <canvas id="chartCanvas"></canvas>
+        </section>
+
+        <section id="calendar" class="section">
+            <h1>Calendar</h1>
+            <div id="calendar"></div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Pomodoro Timer. All rights reserved.</p>
+        </footer>
     </div>
+
     <script src="main.js"></script>
+    <script src="profile.js"></script>
+    <script src="todo.js"></script>
+    <script src="analytics.js"></script>
+    <script src="calendar.js"></script>
 </body>
 </html>
