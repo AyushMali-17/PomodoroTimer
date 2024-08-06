@@ -20,7 +20,7 @@ body.dark {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 350px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -42,7 +42,7 @@ body.dark h1 {
     margin: 20px 0;
 }
 
-.controls, .settings, .log, .theme-switcher {
+.controls, .settings, .log, .theme-switcher, .sound-control, .custom-notifications, .custom-alerts {
     margin: 10px 0;
 }
 
@@ -69,8 +69,8 @@ body.dark button:hover {
     background-color: #ff6347;
 }
 
-input {
-    width: 50px;
+input[type="number"], input[type="text"] {
+    width: 70px;
     text-align: center;
     margin: 5px 0;
 }
@@ -95,4 +95,25 @@ input {
 body.dark .log li {
     background-color: #444;
     border-left-color: #ff7f50;
+}
+
+.sound-control, .custom-notifications, .custom-alerts {
+    display: flex;
+    align-items: center;
+}
+
+.sound-control label, .custom-notifications label, .custom-alerts label {
+    margin-right: 10px;
+}
+
+#authSection {
+    margin-bottom: 20px;
+}
+
+#authSection input {
+    margin: 5px;
+}
+
+#authSection button {
+    margin: 5px;
 }
