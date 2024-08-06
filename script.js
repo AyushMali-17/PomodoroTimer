@@ -5,10 +5,10 @@ let isWorkInterval = true;
 let workInterval = 25 * 60;
 let breakInterval = 5 * 60;
 let currentTime = workInterval;
-let userLoggedIn = false;
 let pomodoroCount = 0;
 let longestStreak = 0;
 let currentStreak = 0;
+let userLoggedIn = false;
 
 const startStopBtn = document.getElementById('startStopBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -24,22 +24,18 @@ const soundToggle = document.getElementById('soundToggle');
 const clearLogBtn = document.getElementById('clearLogBtn');
 const notificationsToggle = document.getElementById('notifications');
 const customAlertInput = document.getElementById('customAlert');
-const saveSettingsBtn = document.getElementById('saveSettingsBtn');
-const authSection = document.getElementById('authSection');
-const appSection = document.getElementById('appSection');
-const loginBtn = document.getElementById('loginBtn');
-const signupBtn = document.getElementById('signupBtn');
-const usernameInput = document.getElementById('username');
-const passwordInput = document.getElementById('password');
+const profilePicInput = document.getElementById('profilePic');
+const profilePicPreview = document.getElementById('profilePicPreview');
 const profileNameInput = document.getElementById('profileName');
 const profileEmailInput = document.getElementById('profileEmail');
 const updateProfileBtn = document.getElementById('updateProfileBtn');
 const todoInput = document.getElementById('todoInput');
 const addTodoBtn = document.getElementById('addTodoBtn');
 const todoList = document.getElementById('todoList');
-const resetAnalyticsBtn = document.getElementById('resetAnalyticsBtn');
 const pomodoroCountDisplay = document.getElementById('pomodoroCount');
 const longestStreakDisplay = document.getElementById('longestStreak');
+const resetAnalyticsBtn = document.getElementById('resetAnalyticsBtn');
+const soundSelect = document.getElementById('soundSelect');
 
 function updateDisplay() {
     const minutes = Math.floor(currentTime / 60);
@@ -54,6 +50,7 @@ function startStopTimer() {
         startStopBtn.textContent = 'Start';
     } else {
         timer = setInterval(() => {
+            if (isPaused) return;
             currentTime--;
             updateDisplay();
 
@@ -62,6 +59,13 @@ function startStopTimer() {
                 isWorkInterval = !isWorkInterval;
                 currentTime = isWorkInterval ? workInterval : breakInterval;
                 startStopBtn.textContent = 'Start';
+                pomodoroCount++;
+                if (isWorkInterval) {
+                    currentStreak++;
+                    if (currentStreak > longestStreak) longestStreak = currentStreak;
+                } else {
+                    currentStreak = 0;
+                }
                 if (soundToggle.checked) alertSound.play();
                 const alertMessage = customAlertInput.value || "Time's up! Take a break.";
                 showNotification(alertMessage);
@@ -114,82 +118,11 @@ function clearLog() {
 
 function switchTheme() {
     document.body.classList.toggle('dark', themeSelector.value === 'dark');
-}
-
-function saveSettings() {
-    workInterval = parseInt(workIntervalInput.value) * 60;
-    breakInterval = parseInt(breakIntervalInput.value) * 60;
-    localStorage.setItem('workInterval', workInterval);
-    localStorage.setItem('breakInterval', breakInterval);
-    alert("Settings saved.");
-}
-
-function loadSettings() {
-    const savedWorkInterval = localStorage.getItem('workInterval');
-    const savedBreakInterval = localStorage.getItem('breakInterval');
-
-    if (savedWorkInterval) {
-        workInterval = parseInt(savedWorkInterval);
-        workIntervalInput.value = workInterval / 60;
-    }
-
-    if (savedBreakInterval) {
-        breakInterval = parseInt(savedBreakInterval);
-        breakIntervalInput.value = breakInterval / 60;
-    }
-}
-
-function authenticateUser() {
-    const username = usernameInput.value;
-    const password = passwordInput.value;
-    // Simple mock authentication
-    if (username && password) {
-        userLoggedIn = true;
-        authSection.style.display = 'none';
-        appSection.style.display = 'block';
-        loadSettings();
-    } else {
-        alert("Please enter both username and password.");
-    }
-}
-
-function signUpUser() {
-    // Mock sign-up logic
-    const username = usernameInput.value;
-    const password = passwordInput.value;
-    if (username && password) {
-        // Normally you'd save user credentials to a database here
-        alert("Sign up successful! Please log in.");
-    } else {
-        alert("Please enter both username and password.");
-    }
-}
-
-function updateProfile() {
-    const name = profileNameInput.value;
-    const email = profileEmailInput.value;
-    if (name && email) {
-        // Save profile information
-        alert("Profile updated.");
-    } else {
-        alert("Please enter both name and email.");
-    }
-}
-
-function addTodo() {
-    const task = todoInput.value.trim();
-    if (task) {
-        const li = document.createElement('li');
-        li.textContent = task;
-        todoList.appendChild(li);
-        todoInput.value = '';
-    }
+    document.body.classList.toggle('blue', themeSelector.value === 'blue');
+    document.body.classList.toggle('green', themeSelector.value === 'green');
 }
 
 function updateAnalytics() {
-    pomodoroCount++;
-    currentStreak++;
-    longestStreak = Math.max(longestStreak, currentStreak);
     pomodoroCountDisplay.textContent = pomodoroCount;
     longestStreakDisplay.textContent = longestStreak;
 }
@@ -198,25 +131,68 @@ function resetAnalytics() {
     pomodoroCount = 0;
     longestStreak = 0;
     currentStreak = 0;
-    pomodoroCountDisplay.textContent = pomodoroCount;
-    longestStreakDisplay.textContent = longestStreak;
+    updateAnalytics();
 }
 
-loginBtn.addEventListener('click', authenticateUser);
-signupBtn.addEventListener('click', signUpUser);
+function handleProfilePicChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            profilePicPreview.src = reader.result;
+            profilePicPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function updateProfile() {
+    if (userLoggedIn) {
+        // Save profile information (this example uses localStorage)
+        localStorage.setItem('profileName', profileNameInput.value);
+        localStorage.setItem('profileEmail', profileEmailInput.value);
+        alert('Profile updated successfully');
+    } else {
+        alert('Please log in to update your profile');
+    }
+}
+
+function addTodo() {
+    const taskText = todoInput.value.trim();
+    if (taskText) {
+        const li = document.createElement('li');
+        li.textContent = taskText;
+        todoList.appendChild(li);
+        todoInput.value = '';
+    }
+}
+
+function handleSoundSelectChange() {
+    alertSound.src = soundSelect.value;
+}
+
+function init() {
+    if (localStorage.getItem('profileName')) {
+        profileNameInput.value = localStorage.getItem('profileName');
+    }
+    if (localStorage.getItem('profileEmail')) {
+        profileEmailInput.value = localStorage.getItem('profileEmail');
+    }
+    updateAnalytics();
+}
+
+profilePicInput.addEventListener('change', handleProfilePicChange);
+updateProfileBtn.addEventListener('click', updateProfile);
+addTodoBtn.addEventListener('click', addTodo);
+soundSelect.addEventListener('change', handleSoundSelectChange);
+resetAnalyticsBtn.addEventListener('click', resetAnalytics);
+
 startStopBtn.addEventListener('click', startStopTimer);
 resetBtn.addEventListener('click', resetTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 clearLogBtn.addEventListener('click', clearLog);
 themeSelector.addEventListener('change', switchTheme);
-saveSettingsBtn.addEventListener('click', saveSettings);
-updateProfileBtn.addEventListener('click', updateProfile);
-addTodoBtn.addEventListener('click', addTodo);
-resetAnalyticsBtn.addEventListener('click', resetAnalytics);
 
-if ('Notification' in window && Notification.permission !== 'denied') {
-    Notification.requestPermission();
-}
-
+init();
 updateDisplay();
 switchTheme();
