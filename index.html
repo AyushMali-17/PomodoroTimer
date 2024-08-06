@@ -4,18 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Pomodoro Timer</h1>
-            <div class="auth">
-                <button id="loginBtn">Login</button>
-                <button id="logoutBtn" style="display:none;">Logout</button>
-            </div>
-        </header>
+        <h1>Pomodoro Timer</h1>
         <div class="timer">
             <span id="minutes">25</span>:<span id="seconds">00</span>
         </div>
@@ -39,19 +32,19 @@
                 <option value="green">Green</option>
             </select>
         </div>
-        <div class="log">
-            <h2>Log</h2>
-            <ul id="logList"></ul>
-            <button id="clearLogBtn">Clear Log</button>
+        <div class="navigation">
+            <a href="profile.html">Profile</a>
+            <a href="todo.html">To-Do List</a>
+            <a href="analytics.html">Analytics</a>
+            <a href="calendar.html">Calendar</a>
         </div>
         <div class="sound-control">
             <label for="soundToggle">Sound:</label>
             <input type="checkbox" id="soundToggle" checked>
             <label for="soundSelect">Alert Sound:</label>
             <select id="soundSelect">
-                <option value="alert.mp3">Default</option>
-                <option value="notification.mp3">Notification</option>
-                <option value="chime.mp3">Chime</option>
+                <option value="alert1.mp3">Alert 1</option>
+                <option value="alert2.mp3">Alert 2</option>
             </select>
         </div>
         <div class="custom-notifications">
@@ -62,33 +55,8 @@
             <label for="customAlert">Custom Alert Message:</label>
             <input type="text" id="customAlert" placeholder="Time's up! Take a break.">
         </div>
-        <div class="profile">
-            <h2>Profile</h2>
-            <input type="file" id="profilePic">
-            <img id="profilePicPreview" src="" alt="Profile Picture" style="display:none;">
-            <label for="profileName">Name:</label>
-            <input type="text" id="profileName">
-            <label for="profileEmail">Email:</label>
-            <input type="email" id="profileEmail">
-            <button id="updateProfileBtn">Update Profile</button>
-        </div>
-        <div class="todo">
-            <h2>To-Do List</h2>
-            <input type="text" id="todoInput" placeholder="New task">
-            <button id="addTodoBtn">Add Task</button>
-            <ul id="todoList"></ul>
-        </div>
-        <div class="analytics">
-            <h2>Analytics</h2>
-            <p>Pomodoros Completed: <span id="pomodoroCount">0</span></p>
-            <p>Longest Streak: <span id="longestStreak">0</span></p>
-            <button id="resetAnalyticsBtn">Reset Analytics</button>
-        </div>
-        <audio id="alertSound" src="alert.mp3"></audio>
-        <div id="calendar"></div>
+        <audio id="alertSound" src="alert1.mp3"></audio>
     </div>
-    <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.0/main.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.0/main.min.css">
+    <script src="main.js"></script>
 </body>
 </html>
