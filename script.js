@@ -11,6 +11,8 @@ const workIntervalInput = document.getElementById('workInterval');
 const breakIntervalInput = document.getElementById('breakInterval');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
+const alertSound = document.getElementById('alertSound');
+const logList = document.getElementById('logList');
 
 function updateDisplay() {
     const minutes = Math.floor(currentTime / 60);
@@ -33,7 +35,9 @@ function startStopTimer() {
                 isWorkInterval = !isWorkInterval;
                 currentTime = isWorkInterval ? workInterval : breakInterval;
                 startStopBtn.textContent = 'Start';
-                alert(isWorkInterval ? 'Work interval finished! Take a break.' : 'Break finished! Back to work.');
+                alertSound.play();
+                showNotification(isWorkInterval ? 'Work interval finished! Take a break.' : 'Break finished! Back to work.');
+                logEvent(isWorkInterval ? 'Work interval finished! Take a break.' : 'Break finished! Back to work.');
             }
         }, 1000);
         startStopBtn.textContent = 'Stop';
@@ -50,6 +54,22 @@ function resetTimer() {
     currentTime = workInterval;
     isWorkInterval = true;
     updateDisplay();
+}
+
+function showNotification(message) {
+    if (Notification.permission === 'granted') {
+        new Notification(message);
+    }
+}
+
+function logEvent(message) {
+    const li = document.createElement('li');
+    li.textContent = message;
+    logList.appendChild(li);
+}
+
+if ('Notification' in window && Notification.permission !== 'denied') {
+    Notification.requestPermission();
 }
 
 startStopBtn.addEventListener('click', startStopTimer);
