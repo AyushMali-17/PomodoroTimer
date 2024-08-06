@@ -1,5 +1,6 @@
 let timer;
 let isRunning = false;
+let isPaused = false;
 let isWorkInterval = true;
 let workInterval = 25 * 60;
 let breakInterval = 5 * 60;
@@ -7,12 +8,14 @@ let currentTime = workInterval;
 
 const startStopBtn = document.getElementById('startStopBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const workIntervalInput = document.getElementById('workInterval');
 const breakIntervalInput = document.getElementById('breakInterval');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
 const alertSound = document.getElementById('alertSound');
 const logList = document.getElementById('logList');
+const themeSelector = document.getElementById('theme');
 
 function updateDisplay() {
     const minutes = Math.floor(currentTime / 60);
@@ -45,6 +48,17 @@ function startStopTimer() {
     isRunning = !isRunning;
 }
 
+function pauseTimer() {
+    if (isRunning) {
+        clearInterval(timer);
+        isPaused = true;
+        startStopBtn.textContent = 'Resume';
+    } else if (isPaused) {
+        isPaused = false;
+        startStopTimer();
+    }
+}
+
 function resetTimer() {
     clearInterval(timer);
     isRunning = false;
@@ -68,11 +82,18 @@ function logEvent(message) {
     logList.appendChild(li);
 }
 
+function switchTheme() {
+    document.body.classList.toggle('dark', themeSelector.value === 'dark');
+}
+
 if ('Notification' in window && Notification.permission !== 'denied') {
     Notification.requestPermission();
 }
 
 startStopBtn.addEventListener('click', startStopTimer);
 resetBtn.addEventListener('click', resetTimer);
+pauseBtn.addEventListener('click', pauseTimer);
+themeSelector.addEventListener('change', switchTheme);
 
 updateDisplay();
+switchTheme();
