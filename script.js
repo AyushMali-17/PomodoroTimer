@@ -6,6 +6,9 @@ let workInterval = 25 * 60;
 let breakInterval = 5 * 60;
 let currentTime = workInterval;
 let userLoggedIn = false;
+let pomodoroCount = 0;
+let longestStreak = 0;
+let currentStreak = 0;
 
 const startStopBtn = document.getElementById('startStopBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -28,6 +31,15 @@ const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
+const profileNameInput = document.getElementById('profileName');
+const profileEmailInput = document.getElementById('profileEmail');
+const updateProfileBtn = document.getElementById('updateProfileBtn');
+const todoInput = document.getElementById('todoInput');
+const addTodoBtn = document.getElementById('addTodoBtn');
+const todoList = document.getElementById('todoList');
+const resetAnalyticsBtn = document.getElementById('resetAnalyticsBtn');
+const pomodoroCountDisplay = document.getElementById('pomodoroCount');
+const longestStreakDisplay = document.getElementById('longestStreak');
 
 function updateDisplay() {
     const minutes = Math.floor(currentTime / 60);
@@ -54,6 +66,7 @@ function startStopTimer() {
                 const alertMessage = customAlertInput.value || "Time's up! Take a break.";
                 showNotification(alertMessage);
                 logEvent(alertMessage);
+                updateAnalytics();
             }
         }, 1000);
         startStopBtn.textContent = 'Stop';
@@ -92,8 +105,7 @@ function showNotification(message) {
 function logEvent(message) {
     const li = document.createElement('li');
     li.textContent = message;
-    logList.appendChild(li
-        logList.appendChild(li);
+    logList.appendChild(li);
 }
 
 function clearLog() {
@@ -153,6 +165,43 @@ function signUpUser() {
     }
 }
 
+function updateProfile() {
+    const name = profileNameInput.value;
+    const email = profileEmailInput.value;
+    if (name && email) {
+        // Save profile information
+        alert("Profile updated.");
+    } else {
+        alert("Please enter both name and email.");
+    }
+}
+
+function addTodo() {
+    const task = todoInput.value.trim();
+    if (task) {
+        const li = document.createElement('li');
+        li.textContent = task;
+        todoList.appendChild(li);
+        todoInput.value = '';
+    }
+}
+
+function updateAnalytics() {
+    pomodoroCount++;
+    currentStreak++;
+    longestStreak = Math.max(longestStreak, currentStreak);
+    pomodoroCountDisplay.textContent = pomodoroCount;
+    longestStreakDisplay.textContent = longestStreak;
+}
+
+function resetAnalytics() {
+    pomodoroCount = 0;
+    longestStreak = 0;
+    currentStreak = 0;
+    pomodoroCountDisplay.textContent = pomodoroCount;
+    longestStreakDisplay.textContent = longestStreak;
+}
+
 loginBtn.addEventListener('click', authenticateUser);
 signupBtn.addEventListener('click', signUpUser);
 startStopBtn.addEventListener('click', startStopTimer);
@@ -161,6 +210,9 @@ pauseBtn.addEventListener('click', pauseTimer);
 clearLogBtn.addEventListener('click', clearLog);
 themeSelector.addEventListener('change', switchTheme);
 saveSettingsBtn.addEventListener('click', saveSettings);
+updateProfileBtn.addEventListener('click', updateProfile);
+addTodoBtn.addEventListener('click', addTodo);
+resetAnalyticsBtn.addEventListener('click', resetAnalytics);
 
 if ('Notification' in window && Notification.permission !== 'denied') {
     Notification.requestPermission();

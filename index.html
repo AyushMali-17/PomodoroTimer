@@ -55,6 +55,26 @@
                 <label for="customAlert">Custom Alert Message:</label>
                 <input type="text" id="customAlert" placeholder="Time's up! Take a break.">
             </div>
+            <div class="profile">
+                <h2>Profile</h2>
+                <label for="profileName">Name:</label>
+                <input type="text" id="profileName" placeholder="Your name">
+                <label for="profileEmail">Email:</label>
+                <input type="email" id="profileEmail" placeholder="Your email">
+                <button id="updateProfileBtn">Update Profile</button>
+            </div>
+            <div class="todo-list">
+                <h2>To-Do List</h2>
+                <input type="text" id="todoInput" placeholder="Add a new task">
+                <button id="addTodoBtn">Add Task</button>
+                <ul id="todoList"></ul>
+            </div>
+            <div class="analytics">
+                <h2>Analytics</h2>
+                <p>Total Pomodoros Completed: <span id="pomodoroCount">0</span></p>
+                <p>Longest Streak: <span id="longestStreak">0</span></p>
+                <button id="resetAnalyticsBtn">Reset Analytics</button>
+            </div>
             <audio id="alertSound" src="alert.mp3"></audio>
         </div>
     </div>

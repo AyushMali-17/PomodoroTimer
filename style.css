@@ -20,7 +20,7 @@ body.dark {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 400px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -42,7 +42,7 @@ body.dark h1 {
     margin: 20px 0;
 }
 
-.controls, .settings, .log, .theme-switcher, .sound-control, .custom-notifications, .custom-alerts {
+.controls, .settings, .log, .theme-switcher, .sound-control, .custom-notifications, .custom-alerts, .profile, .todo-list, .analytics {
     margin: 10px 0;
 }
 
@@ -69,22 +69,25 @@ body.dark button:hover {
     background-color: #ff6347;
 }
 
-input[type="number"], input[type="text"] {
-    width: 70px;
+input[type="number"], input[type="text"], input[type="email"] {
+    width: 100%;
     text-align: center;
     margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-.log {
+.log, .todo-list {
     text-align: left;
 }
 
-.log ul {
+.log ul, .todo-list ul {
     list-style: none;
     padding: 0;
 }
 
-.log li {
+.log li, .todo-list li {
     margin: 5px 0;
     padding: 5px;
     background-color: #f9f9f9;
@@ -92,28 +95,25 @@ input[type="number"], input[type="text"] {
     transition: background-color 0.3s, border-left-color 0.3s;
 }
 
-body.dark .log li {
+body.dark .log li, body.dark .todo-list li {
     background-color: #444;
     border-left-color: #ff7f50;
 }
 
-.sound-control, .custom-notifications, .custom-alerts {
+.sound-control, .custom-notifications, .custom-alerts, .profile {
     display: flex;
     align-items: center;
 }
 
-.sound-control label, .custom-notifications label, .custom-alerts label {
+.sound-control label, .custom-notifications label, .custom-alerts label, .profile label {
     margin-right: 10px;
 }
 
-#authSection {
-    margin-bottom: 20px;
+.todo-list input {
+    width: calc(100% - 80px);
+    display: inline-block;
 }
 
-#authSection input {
-    margin: 5px;
-}
-
-#authSection button {
-    margin: 5px;
+.analytics {
+    text-align: left;
 }
