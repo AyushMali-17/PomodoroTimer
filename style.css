@@ -15,13 +15,13 @@ body.dark {
 }
 
 body.blue {
-    background-color: #e0f7fa;
-    color: #006064;
+    background-color: #d0e7ff;
+    color: #000;
 }
 
 body.green {
-    background-color: #d0f0c0;
-    color: #004d40;
+    background-color: #e0f7e9;
+    color: #000;
 }
 
 .container {
@@ -30,7 +30,7 @@ body.green {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 350px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -40,13 +40,13 @@ body.dark .container {
 }
 
 body.blue .container {
-    background-color: #b2ebf2;
-    color: #004d40;
+    background-color: #a0c2ff;
+    color: #000;
 }
 
 body.green .container {
-    background-color: #c8e6c9;
-    color: #004d40;
+    background-color: #b2e0b3;
+    color: #000;
 }
 
 h1 {
@@ -57,17 +57,14 @@ body.dark h1 {
     color: #ff7f50;
 }
 
-body.blue h1 {
-    color: #00796b;
-}
-
-body.green h1 {
-    color: #388e3c;
-}
-
 .timer {
     font-size: 3em;
     margin: 20px 0;
+    transition: color 0.3s;
+}
+
+body.dark .timer {
+    color: #ff7f50;
 }
 
 .controls, .settings, .log, .theme-switcher, .sound-control, .custom-notifications, .custom-alerts, .profile, .todo, .analytics {
@@ -83,6 +80,7 @@ button {
     cursor: pointer;
     background-color: #ff6347;
     color: white;
+    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -97,35 +95,16 @@ body.dark button:hover {
     background-color: #ff6347;
 }
 
-body.blue button {
-    background-color: #00796b;
-}
-
-body.blue button:hover {
-    background-color: #004d40;
-}
-
-body.green button {
-    background-color: #388e3c;
-}
-
-body.green button:hover {
-    background-color: #004d40;
-}
-
-input[type="number"], input[type="text"], input[type="email"], select {
+input[type="number"], input[type="text"], input[type="email"] {
     width: 100%;
+    padding: 8px;
     margin: 5px 0;
-    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 input[type="file"] {
     margin: 5px 0;
-}
-
-.profile img {
-    border-radius: 50%;
-    margin-top: 10px;
 }
 
 .log {
@@ -150,11 +129,22 @@ body.dark .log li {
     border-left-color: #ff7f50;
 }
 
-.sound-control, .custom-notifications, .custom-alerts {
+.sound-control, .custom-notifications, .custom-alerts, .profile, .todo, .analytics {
     display: flex;
     align-items: center;
 }
 
-.sound-control label, .custom-notifications label, .custom-alerts label {
+.sound-control label, .custom-notifications label, .custom-alerts label, .profile label, .todo label, .analytics label {
     margin-right: 10px;
+}
+
+.profile img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+#calendar {
+    margin-top: 20px;
 }

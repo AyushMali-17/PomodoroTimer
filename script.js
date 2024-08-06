@@ -21,9 +21,12 @@ const alertSound = document.getElementById('alertSound');
 const logList = document.getElementById('logList');
 const themeSelector = document.getElementById('theme');
 const soundToggle = document.getElementById('soundToggle');
+const soundSelect = document.getElementById('soundSelect');
 const clearLogBtn = document.getElementById('clearLogBtn');
 const notificationsToggle = document.getElementById('notifications');
 const customAlertInput = document.getElementById('customAlert');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
 const profilePicInput = document.getElementById('profilePic');
 const profilePicPreview = document.getElementById('profilePicPreview');
 const profileNameInput = document.getElementById('profileName');
@@ -32,10 +35,10 @@ const updateProfileBtn = document.getElementById('updateProfileBtn');
 const todoInput = document.getElementById('todoInput');
 const addTodoBtn = document.getElementById('addTodoBtn');
 const todoList = document.getElementById('todoList');
+const resetAnalyticsBtn = document.getElementById('resetAnalyticsBtn');
 const pomodoroCountDisplay = document.getElementById('pomodoroCount');
 const longestStreakDisplay = document.getElementById('longestStreak');
-const resetAnalyticsBtn = document.getElementById('resetAnalyticsBtn');
-const soundSelect = document.getElementById('soundSelect');
+const calendar = document.getElementById('calendar');
 
 function updateDisplay() {
     const minutes = Math.floor(currentTime / 60);
@@ -50,7 +53,6 @@ function startStopTimer() {
         startStopBtn.textContent = 'Start';
     } else {
         timer = setInterval(() => {
-            if (isPaused) return;
             currentTime--;
             updateDisplay();
 
@@ -59,14 +61,10 @@ function startStopTimer() {
                 isWorkInterval = !isWorkInterval;
                 currentTime = isWorkInterval ? workInterval : breakInterval;
                 startStopBtn.textContent = 'Start';
-                pomodoroCount++;
-                if (isWorkInterval) {
-                    currentStreak++;
-                    if (currentStreak > longestStreak) longestStreak = currentStreak;
-                } else {
-                    currentStreak = 0;
+                if (soundToggle.checked) {
+                    alertSound.src = soundSelect.value;
+                    alertSound.play();
                 }
-                if (soundToggle.checked) alertSound.play();
                 const alertMessage = customAlertInput.value || "Time's up! Take a break.";
                 showNotification(alertMessage);
                 logEvent(alertMessage);
@@ -117,12 +115,45 @@ function clearLog() {
 }
 
 function switchTheme() {
-    document.body.classList.toggle('dark', themeSelector.value === 'dark');
-    document.body.classList.toggle('blue', themeSelector.value === 'blue');
-    document.body.classList.toggle('green', themeSelector.value === 'green');
+    const theme = themeSelector.value;
+    document.body.className = theme;
+}
+
+function updateProfile() {
+    const name = profileNameInput.value;
+    const email = profileEmailInput.value;
+    // Handle profile update logic, e.g., save to server or local storage
+    alert('Profile updated!');
+}
+
+function handleProfilePicUpload() {
+    const file = profilePicInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            profilePicPreview.src = e.target.result;
+            profilePicPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function addTodo() {
+    const task = todoInput.value.trim();
+    if (task) {
+        const li = document.createElement('li');
+        li.textContent = task;
+        todoList.appendChild(li);
+        todoInput.value = '';
+    }
 }
 
 function updateAnalytics() {
+    pomodoroCount++;
+    currentStreak++;
+    if (currentStreak > longestStreak) {
+        longestStreak = currentStreak;
+    }
     pomodoroCountDisplay.textContent = pomodoroCount;
     longestStreakDisplay.textContent = longestStreak;
 }
@@ -131,68 +162,37 @@ function resetAnalytics() {
     pomodoroCount = 0;
     longestStreak = 0;
     currentStreak = 0;
-    updateAnalytics();
+    pomodoroCountDisplay.textContent = pomodoroCount;
+    longestStreakDisplay.textContent = longestStreak;
 }
 
-function handleProfilePicChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            profilePicPreview.src = reader.result;
-            profilePicPreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
+function setupCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    const calendarObj = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+            // Sample events, replace with actual events if needed
+            { title: 'Work Session', start: '2024-08-01T09:00:00' },
+            { title: 'Break', start: '2024-08-01T10:00:00' }
+        ]
+    });
+    calendarObj.render();
 }
 
-function updateProfile() {
-    if (userLoggedIn) {
-        // Save profile information (this example uses localStorage)
-        localStorage.setItem('profileName', profileNameInput.value);
-        localStorage.setItem('profileEmail', profileEmailInput.value);
-        alert('Profile updated successfully');
-    } else {
-        alert('Please log in to update your profile');
-    }
+function toggleLoginLogout() {
+    userLoggedIn = !userLoggedIn;
+    loginBtn.style.display = userLoggedIn ? 'none' : 'inline';
+    logoutBtn.style.display = userLoggedIn ? 'inline' : 'none';
 }
 
-function addTodo() {
-    const taskText = todoInput.value.trim();
-    if (taskText) {
-        const li = document.createElement('li');
-        li.textContent = taskText;
-        todoList.appendChild(li);
-        todoInput.value = '';
-    }
-}
-
-function handleSoundSelectChange() {
-    alertSound.src = soundSelect.value;
-}
-
-function init() {
-    if (localStorage.getItem('profileName')) {
-        profileNameInput.value = localStorage.getItem('profileName');
-    }
-    if (localStorage.getItem('profileEmail')) {
-        profileEmailInput.value = localStorage.getItem('profileEmail');
-    }
-    updateAnalytics();
-}
-
-profilePicInput.addEventListener('change', handleProfilePicChange);
+loginBtn.addEventListener('click', toggleLoginLogout);
+logoutBtn.addEventListener('click', toggleLoginLogout);
 updateProfileBtn.addEventListener('click', updateProfile);
+profilePicInput.addEventListener('change', handleProfilePicUpload);
 addTodoBtn.addEventListener('click', addTodo);
-soundSelect.addEventListener('change', handleSoundSelectChange);
 resetAnalyticsBtn.addEventListener('click', resetAnalytics);
-
-startStopBtn.addEventListener('click', startStopTimer);
-resetBtn.addEventListener('click', resetTimer);
-pauseBtn.addEventListener('click', pauseTimer);
-clearLogBtn.addEventListener('click', clearLog);
 themeSelector.addEventListener('change', switchTheme);
 
-init();
 updateDisplay();
 switchTheme();
+setupCalendar();
